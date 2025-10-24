@@ -1,10 +1,9 @@
-
 #include <iostream>
 #include <string>
 #include <iomanip>
 #include <ctime>
-#include <chrono>
-#include <thread>
+#include <windows.h> // Inclui a biblioteca do Windows para a função Sleep()
+
 
 using namespace std;
 
@@ -58,7 +57,7 @@ int main() {
     Tempo tempo_atual; 
 
     while (true) {
-        system("clear");
+        system("cls"); 
 
         time_t agora_sistema = time(0);
         tm *tempo_local = localtime(&agora_sistema);
@@ -72,7 +71,8 @@ int main() {
         cout << "------------------------------" << endl;
         cout << "Rodando... (Pressione Ctrl+C para sair)" << endl;
 
-        this_thread::sleep_for(chrono::seconds(1));
+        // Pausa por 1000 milissegundos (que é 1 segundo)
+        Sleep(1000); 
     }
 
     return 0;
