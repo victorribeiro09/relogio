@@ -1,12 +1,7 @@
 # ⏰ Relógio Digital ASCII em C++
 
-Este é um projeto acadêmico para a disciplina de [Nome da Disciplina], do curso Técnico em Telecomunicações do IFCE. O objetivo é criar um relógio digital funcional em C++, que roda no terminal e simula um display de 7 segmentos usando arte ASCII.
 
 ## 🚀 Demonstração
-
-(Aqui você pode adicionar um GIF ou um *screenshot* do relógio funcionando!)
-
-`[Insira um GIF ou Screenshot do seu relógio em execução aqui]`
 
 **Exemplo de Saída no Terminal:**
 ```text
@@ -19,48 +14,47 @@ Este é um projeto acadêmico para a disciplina de [Nome da Disciplina], do curs
 Rodando... (Pressione Ctrl+C para sair)
 ```
 
-## ✨ Funcionalidades Principais
+## 🔧 Como o Código Funciona
 
-* **Relógio Automático:** Busca a hora atual do sistema operacional e a exibe.
-* **Display ASCII:** Utiliza uma matriz de strings para "desenhar" os números de 0 a 9, simulando um display de 7 segmentos.
-* **Atualização Real-Time:** O relógio atualiza a cada segundo (usando `Sleep()` no Windows ou `sleep_for()` no C++11).
-* **Código Modular:** O projeto utiliza funções (`mostrar_display_ascii`) e estruturas (`struct Tempo`) para organizar o código, conforme solicitado nos requisitos.
+O projeto é dividido em partes lógicas para atender aos requisitos de modularidade e boas práticas.
 
-## 🛠️ Tecnologias Utilizadas
+### 1. Estrutura `Tempo` (Uso de struct)
 
-* **C++**
-* **Biblioteca Padrão:**
-    * `<iostream>` e `<string>` (para E/S e texto)
-    * `<ctime>` (para buscar a hora do sistema)
-    * `<windows.h>` (para a função `Sleep` na versão Windows)
-    * *(Alternativa C++11: `<chrono>` e `<thread>`)*
+Para organizar os dados, foi usada uma `struct` chamada `Tempo`. Isso agrupa as três informações essenciais do relógio em uma única variável, facilitando o gerenciamento.
 
-## 🏃‍♂️ Como Compilar e Rodar
+```cpp
+struct Tempo {
+    int hora;
+    int minuto;
+    int segundo;
+};
+```
 
-Você precisará de um compilador C++ (como o `g++` do MinGW no Windows).
+### 2. O Display ASCII (Função Modular)
 
-1.  **Clone este repositório:**
-    ```bash
-    git clone [https://github.com/seu-usuario/nome-do-repositorio.git](https://github.com/seu-usuario/nome-do-repositorio.git)
-    cd nome-do-repositorio
-    ```
+A parte visual do relógio é controlada pela função `mostrar_display_ascii()`. Para criar o efeito de "7 segmentos", foi utilizada uma matriz (`const string display_7seg[10][3]`) que armazena o "desenho" ASCII de cada dígito (0 a 9).
 
-2.  **Compile o arquivo:**
+A função `mostrar_display_ascii()` recebe a `struct Tempo` e:
+1.  Separa cada dígito (ex: `14` vira `1` e `4`).
+2.  Consulta a matriz de desenhos.
+3.  Imprime os desenhos linha por linha para formar o relógio completo.
 
-    *Se estiver usando a versão com `#include <windows.h>` (recomendado para MinGW):*
-    ```bash
-    g++ relogio_digital.cpp -o relogio.exe
-    ```
+### 3. O Loop Principal (`main`)
 
-    *Se estiver usando a versão C++11 (com `<thread>` e `<chrono>`):*
-    ```bash
-    g++ relogio_digital.cpp -o relogio.exe -std=c++11 -lpthread
-    ```
+O `main` contém o "motor" do relógio. Ele funciona em um loop infinito (`while(true)`) que executa os seguintes passos repetidamente:
 
-3.  **Execute o programa:**
-    ```bash
-    .\relogio.exe
-    ```
+1.  **Limpa a Tela:** Usa `system("cls")` (Windows) ou `system("clear")` (Linux/Mac) para apagar o relógio anterior.
+2.  **Pega a Hora:** Usa a biblioteca `<ctime>` para buscar a hora atual do sistema operacional.
+3.  **Atualiza a Struct:** Os valores de hora, minuto e segundo do sistema são armazenados na variável `tempo_atual`.
+4.  **Desenha o Relógio:** Chama a função `mostrar_display_ascii(tempo_atual)`.
+5.  **Pausa (Sleep):** O programa pausa por 1 segundo (1000 milissegundos) usando `Sleep(1000)` (via `<windows.h>`) ou `this_thread::sleep_for(chrono::seconds(1))` (via C++11). Isso garante que o relógio só atualize uma vez por segundo.
+
+### 4. Bibliotecas Utilizadas
+
+* **`<iostream>` e `<string>`**: Para E/S (entrada/saída) no console e manipulação dos textos do display.
+* **`<ctime>`**: Para buscar a hora local (`time(0)` e `localtime()`).
+* **`<windows.h>`**: (Em uma das versões) Fornece a função `Sleep()` para pausar o programa no Windows.
+* **`<chrono>` e `<thread>`**: (Na versão C++11) Fornecem uma maneira moderna e portável (`this_thread::sleep_for`) de pausar o programa.
 
 ---
 
@@ -76,15 +70,6 @@ Este projeto foi desenvolvido para atender aos seguintes critérios de avaliaç�
 | **Diagrama de Estados** | 3 | FSM claro com 3 estados |
 | **Documentação** | 3 | Código comentado e README completo |
 | **Qualidade** | 1 | Código limpo e profissional |
-
-**Entregáveis:**
-* [x] **Código-fonte:** `relogio_digital.cpp`
-* [ ] **Diagrama de estados:** FSM com 3 estados e transições
-* [x] **README.md:** Documentação com instruções de uso
-* [ ] **Vídeo:** Demonstração (1 minuto)
-* [ ] **Relatório:** Explicação do uso de `struct` e funções
-
-## 👤 Autor
 
 * **[SEU NOME AQUI]**
 * **Email:** [seu-email@exemplo.com]
