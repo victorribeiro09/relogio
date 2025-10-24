@@ -71,6 +71,4 @@ Este projeto foi desenvolvido para atender aos seguintes critérios de avaliaç�
 | **Documentação** | 3 | Código comentado e README completo |
 | **Qualidade** | 1 | Código limpo e profissional |
 
-* **[SEU NOME AQUI]**
-* **Email:** [seu-email@exemplo.com]
 * **Curso:** Técnico em Telecomunicações - IFCE
